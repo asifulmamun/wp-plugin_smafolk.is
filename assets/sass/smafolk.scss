@@ -1,0 +1,88 @@
+/* Gtranslate */
+#menu-primary-menu{
+
+    .menu-item-gtranslate {
+
+        padding: .375rem .25rem;
+    }
+}
+
+footer section#text-4 {
+
+    .textwidget img:last-child {
+
+        margin-left: .25rem;
+    }
+}
+
+/* NAV */
+nav.navbar {
+	text-transform: uppercase;
+}
+
+
+/* Product Price */
+.price>.woocommerce-Price-amount, .price ins span bdi {
+
+	background-color: #ffe000;
+	padding: .3rem .5rem;
+	color: black;
+	font-weight: bold;
+	font-size: 1.2rem;
+	box-shadow: 0px 7px 16px -4px #2b2424;
+	border-radius: 3px;
+}
+
+.price {
+
+    del {
+        span.woocommerce-Price-amount{
+
+            color: red;
+            border: 1px solid;
+            padding: .15rem;
+            margin-bottom: .6rem;
+            display: inline-block;
+            text-decoration: line-through;
+        }
+    }
+}
+
+.quantity{
+
+    display: flex;
+    align-items: center;
+}
+
+// Beofore Quantity Button
+.before_quantity{
+    padding-right: .7rem;
+}
+
+// After Quantity Button
+.after_quantity{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: .7rem;
+
+    #plus,#minus{
+
+        border: .063rem solid;
+        min-width: 1.25rem;
+        text-align: center;
+        font-size: .813rem;
+        cursor: pointer;
+
+    }
+
+    #minus{
+
+        margin-top: .125rem;
+    }
+}
+
+form.cart .quantity input[type=number].qty{
+    width: 30%;
+}
