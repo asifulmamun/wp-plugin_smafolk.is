@@ -20,9 +20,9 @@ function get_form_value(selector) {
 }
 
 // Set form value
-function set_form_value(selector, value) {
+function set_form_value(selector, setQty) {
     let form_id = document.querySelector(selector);
-    form_id.value = value;
+    form_id.value = setQty;
 }
 
 
@@ -32,10 +32,10 @@ after_quantity_extra_button_style(plusButton);
 
 // click
 plusButton.addEventListener('click', function(){
-    let qty = get_form_value('form.cart>.quantity>input[type=number].qty');
+    let qty = get_form_value('input[type=number].qty');
     var incriment = ++qty;
 
-    set_form_value('form.cart>.quantity>input[type=number].qty', incriment);
+    set_form_value('input[type=number].qty', incriment);
 });
 
 // hover
@@ -55,13 +55,13 @@ const minusButton = document.getElementById('minus');
 after_quantity_extra_button_style(minusButton);
 
 minusButton.addEventListener('click', function(){
-    let qty = get_form_value('form.cart>.quantity>input[type=number].qty');
+    let qty = get_form_value('input[type=number].qty');
     if(qty > 1){
         var incriment = --qty;
     }else{
         var incriment = qty;
     }
-    set_form_value('form.cart>.quantity>input[type=number].qty', incriment);
+    set_form_value('input[type=number].qty', incriment);
 });
 
 // hover
