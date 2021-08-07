@@ -165,3 +165,10 @@ let reset_variations = document.querySelector('.reset_variations');
 if(reset_variations && reset_variations.innerText == 'Clear'){
     reset_variations.innerText = 'Hreinsa';
 }
+
+/* Woo Commerce Messege
+----------------------- */
+let woocommerce_message = document.querySelector('.woocommerce-notices-wrapper>.woocommerce-message>a'); 
+if(woocommerce_message && woocommerce_message.innerText == 'View cart'){
+    woocommerce_message.innerText = 'Skoða körfu';
+}
