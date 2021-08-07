@@ -137,7 +137,8 @@ function filter_product_tabs( $tabs ) {
 }
 
 
-
+/* Translate Coupon over all page
+------------------------------------ */
 add_filter( 'gettext', 'bt_rename_coupon_field_on_cart', 10, 3 );
 add_filter( 'woocommerce_coupon_error', 'bt_rename_coupon_label', 10, 3 );
 add_filter( 'woocommerce_coupon_message', 'bt_rename_coupon_label', 10, 3 );
@@ -176,12 +177,10 @@ function bt_rename_coupon_field_on_cart( $translated_text, $text, $text_domain )
 	return $translated_text;
 }
 
-
 // Rename the "Have a Coupon?" message on the checkout page
 function bt_rename_coupon_message_on_checkout() {
 	return 'Ertu með afsláttarmiða kóða?' . ' ' . __( 'Smelltu hér til að slá inn kóðann þinn', 'woocommerce' ) . '';
 }
-
 
 function bt_rename_coupon_label( $err, $err_code=null, $something=null ){
 	$err = str_ireplace("Coupon","Afsláttarmiði",$err);
