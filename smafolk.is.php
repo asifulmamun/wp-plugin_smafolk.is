@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name:       Smafolk Core
+ * Plugin Name:       Smafolk Core - Addon for Feb Slim theme
  * Plugin URI:        https://example.com/plugins/the-basics/
- * Description:       Site Core Function. Customize some feature without touch theme.
- * Version:           1.0.0
+ * Description:       Site Core Function. Customize some feature without touch theme. Addon for Feb Slim theme.
+ * Version:           1.0.2
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Al Mamun - asifulmamun
@@ -15,26 +15,27 @@
  * Domain Path:       /languages
 **/
 
+
+
 /**
  * Enqueue scripts and styles.
  */
+add_action('wp_enqueue_scripts', 'smafolk_custom_scripts');
 add_action('wp_enqueue_scripts', function(){
 
     // css
-    wp_enqueue_style('smafolk_customize_core_plugin', esc_url( plugins_url( 'assets/css/smafolk.css', __FILE__ ) ));
-
+    wp_enqueue_style('smafolk_customize_core_plugin', esc_url( plugins_url( 'assets/css/smafolk_core_plugin.css', __FILE__ ) ));
 
     // js only single product
-    if ( is_product() && has_term( array(), 'product_cat' ) ) {
-	    wp_enqueue_script( 'smafolk_customize_core_plugin_product_page', esc_url( plugins_url( 'assets/js/smafolk_product_customize.js', __FILE__ ) ), array(), _S_VERSION, true );
-    }
+	wp_enqueue_script( 'smafolk_customize_core_plugin_product_page', esc_url( plugins_url( 'assets/js/smafolk_core_plugin.js', __FILE__ ) ), array(), _S_VERSION, true );
 
 }, 99);
-add_action('wp_enqueue_scripts', 'smafolk_custom_scripts');
+
 
 
 /* Before Quantity
 ---------- */
+add_action('woocommerce_before_quantity_input_field', 'wc_text_before_quantity');
 function wc_text_before_quantity() {
 
     // For All
@@ -58,13 +59,12 @@ function wc_text_before_quantity() {
     //     echo 'pair';
     // }
 }
-add_action('woocommerce_before_quantity_input_field', 'wc_text_before_quantity');
-
 
 
 
 /* After Quantity
 ---------- */
+add_action('woocommerce_after_quantity_input_field', 'wc_text_after_quantity');
 function wc_text_after_quantity() {
 
     // For All
@@ -75,9 +75,68 @@ function wc_text_after_quantity() {
         echo '</div>';
     }
 }
-add_action('woocommerce_after_quantity_input_field', 'wc_text_after_quantity');
 
 
+
+/* Change Btn - Add To Cart Text
+-------------------------------- */
+function add_to_cart_iceland(){
+    
+    // Single Page Add To Cart Button
+    add_filter( 'add_to_cart_text', 'woo_custom_single_add_to_cart_text' );                // < 2.1
+    add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_single_add_to_cart_text' );  // 2.1 +
+    function woo_custom_single_add_to_cart_text() {
+    
+        return __( 'setja í körfu', 'woocommerce' );
+    
+    }
+
+    // All Products Add To Cart Button
+    add_filter( 'woocommerce_product_add_to_cart_text', 'woocommerce_custom_product_add_to_cart_text' );  
+    function woocommerce_custom_product_add_to_cart_text() {
+        
+        return __( 'setja í körfu', 'woocommerce' );
+        
+    }
+
+    // Select Option Button for All Products
+    add_filter( 'woocommerce_product_add_to_cart_text', function( $text ) {
+        global $product;
+        if ( $product->is_type( 'variable' ) ) {
+            $text = $product->is_purchasable() ? __( 'Veldu Valkostir', 'woocommerce' ) : __( 'Read more', 'woocommerce' );
+        }
+        return $text;
+    }, 10 );
+}
+add_to_cart_iceland();
+
+
+
+/**
+ * Description | Additional Information | Reviews Button Change
+ */
+add_filter( 'woocommerce_product_tabs', 'filter_product_tabs', 98 );
+function filter_product_tabs( $tabs ) {
+
+    global $product;
+
+    if ( isset($tabs['description']['callback']) ) {
+        $tabs['description']['title'] = __( 'Lýsing' ); // Rename the description tab
+        $tabs['description']['priority'] = 5; // Description
+    }
+
+    if ( isset($tabs['additional_information']['callback']) ) {
+        $tabs['additional_information']['title'] = __( 'Viðbótarupplýsingar' ); // Rename the additional information tab
+        $tabs['additional_information']['priority'] = 10;   // Additional information
+    }
+
+    if ( isset($tabs['reviews']['callback']) ) {
+        $tabs['reviews']['title'] = __( 'Umsagnir' ) . ' (' . $product->get_review_count() . ') ';  // Rename the reviews tab
+        $tabs['reviews']['priority'] = 15; // Reviews
+    }
+
+    return $tabs;
+}
 
 
 
