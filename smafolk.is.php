@@ -17,9 +17,8 @@
 
 
 
-/**
- * Enqueue scripts and styles.
- */
+/* Enqueue scripts and styles.
+---------------------------- */
 add_action('wp_enqueue_scripts', 'smafolk_custom_scripts');
 add_action('wp_enqueue_scripts', function(){
 
@@ -112,9 +111,8 @@ add_to_cart_iceland();
 
 
 
-/**
- * Description | Additional Information | Reviews Button Change
- */
+/* Description | Additional Information | Reviews Button Change
+---------------------------------------------------------------- */
 add_filter( 'woocommerce_product_tabs', 'filter_product_tabs', 98 );
 function filter_product_tabs( $tabs ) {
 
@@ -137,6 +135,59 @@ function filter_product_tabs( $tabs ) {
 
     return $tabs;
 }
+
+
+
+add_filter( 'gettext', 'bt_rename_coupon_field_on_cart', 10, 3 );
+add_filter( 'woocommerce_coupon_error', 'bt_rename_coupon_label', 10, 3 );
+add_filter( 'woocommerce_coupon_message', 'bt_rename_coupon_label', 10, 3 );
+add_filter( 'woocommerce_cart_totals_coupon_label', 'bt_rename_coupon_label',10, 1 );
+add_filter( 'woocommerce_checkout_coupon_message', 'bt_rename_coupon_message_on_checkout' );
+/**
+ * WooCommerce
+ * Change Coupon Text
+ * @param string $text
+ * @return string
+ * @link https://gist.github.com/maxrice/8551024
+ */
+
+function bt_rename_coupon_field_on_cart( $translated_text, $text, $text_domain ) {
+	// bail if not modifying frontend woocommerce text
+	if ( is_admin() || 'woocommerce' !== $text_domain ) {
+		return $translated_text;
+	}
+	if ( 'Coupon:' === $text ) {
+		$translated_text = 'Afsláttarmiði:';
+	}
+
+	if ('Coupon has been removed.' === $text){
+		$translated_text = 'Afsláttarmiði hefur verið fjarlægður.';
+	}
+
+	if ( 'Apply coupon' === $text ) {
+		$translated_text = 'Notaðu afsláttarmiða';
+	}
+
+	if ( 'Coupon code' === $text ) {
+		$translated_text = 'Afsláttarmiði';
+	
+	} 
+
+	return $translated_text;
+}
+
+
+// Rename the "Have a Coupon?" message on the checkout page
+function bt_rename_coupon_message_on_checkout() {
+	return 'Ertu með afsláttarmiða kóða?' . ' ' . __( 'Smelltu hér til að slá inn kóðann þinn', 'woocommerce' ) . '';
+}
+
+
+function bt_rename_coupon_label( $err, $err_code=null, $something=null ){
+	$err = str_ireplace("Coupon","Afsláttarmiði",$err);
+	return $err;
+}
+
 
 
 

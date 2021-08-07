@@ -182,17 +182,40 @@ function translate_cart_page() {
     // Sub-total
     translate_by_selector_with_auth('.product-subtotal', 'Subtotal', 'Undirsumma');
 
-    // Coupoon
-    translate_by_selector_with_auth('.coupon>label', 'Coupon:', 'Afsláttarmiði:');
+    // Apply Coupon then refresh
+    if (document.querySelector('.coupon>button')) {
+        document.querySelector('.coupon>button').addEventListener('click', function () {
 
-    // Coupoon Place Holder
-    translate_placeholder_by_selector_with_auth('.coupon>#coupon_code', 'Coupon code', 'Afsláttarmiði:');/*  */
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
 
-    // Apply Coupon
-    translate_by_selector_with_auth('.coupon>button', 'Apply coupon', 'Notaðu afsláttarmiða');
+        });
+    }
 
-    // Update cart
+    // Remove Coupon Button
+    translate_by_selector_with_auth('.woocommerce-remove-coupon', '[Remove]', '[Fjarlægðu]');
+    if (document.querySelector('.woocommerce-remove-coupon')) {
+        document.querySelector('.woocommerce-remove-coupon').addEventListener('click', function () {
+
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
+
+        });
+    }
+
+    // Update cart translate & refresh
     translate_by_selector_with_auth('.update_cart', 'Update cart', 'Uppfæra körfu');
+    if (document.querySelector('.update_cart')) {
+        document.querySelector('.update_cart').addEventListener('click', function () {
+
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
+
+        });
+    }
 
     // Cart total
     translate_by_selector_with_auth('.cart_totals>h2', 'CART TOTALS', 'VEGNAHLUTAR');
@@ -206,7 +229,7 @@ function translate_cart_page() {
     // Shiping to
     let get_shipping_dest = document.querySelector('.woocommerce-shipping-destination>strong');
     let shipping_dest = document.querySelector('.woocommerce-shipping-destination');
-    if(get_shipping_dest && shipping_dest){
+    if (get_shipping_dest && shipping_dest) {
         shipping_dest.innerHTML = 'Sending til&nbsp;<b>' + get_shipping_dest.innerText + '</b>';
     }
 
@@ -219,6 +242,17 @@ function translate_cart_page() {
     // Process to Checkout
     translate_by_selector_with_auth('.wc-proceed-to-checkout>.checkout-button', 'Proceed to checkout', 'Haltu áfram að afgreiðslu');
 
+    // Address Update
+    translate_by_selector_with_auth('.woocommerce-shipping-calculator>.shipping-calculator-form>p>button', 'Update', 'Uppfærsla');
+    if (document.querySelector('.woocommerce-shipping-calculator>.shipping-calculator-form>p>button')) {
+        document.querySelector('.woocommerce-shipping-calculator>.shipping-calculator-form>p>button').addEventListener('click', function () {
+
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
+
+        });
+    }
 }
 
 /* Triger for Translate
