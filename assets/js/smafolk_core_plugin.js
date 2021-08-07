@@ -4,20 +4,6 @@
  - Workable Function create for quantity
 --------------------------- */
 
-
-
-// Set Style
-function after_quantity_extra_button_style(selector){
-
-    // select default Add to card button for get style
-    let addToCartBtton = getComputedStyle(document.querySelector('.single_add_to_cart_button'));
-
-    // Style Add
-    selector.style.backgroundColor = addToCartBtton.backgroundColor;
-    selector.style.borderWidth = addToCartBtton.borderWidth;
-    selector.style.color = addToCartBtton.color;
-}
-
 // Get form value
 function get_form_value(selector) {
     let form_id = document.querySelector(selector);
@@ -30,145 +16,212 @@ function set_form_value(selector, setQty) {
     form_id.value = setQty;
 }
 
+// Set Style
+function after_quantity_extra_button_style(selector) {
+
+    // select default Add to card button for get style
+    let addToCartBtton = getComputedStyle(document.querySelector('.single_add_to_cart_button'));
+
+    // Style Add
+    selector.style.backgroundColor = addToCartBtton.backgroundColor;
+    selector.style.borderWidth = addToCartBtton.borderWidth;
+    selector.style.color = addToCartBtton.color;
+}
+
 
 // Plus Button
 const plusButton = document.getElementById('plus');
 // if exist ID or Class
-if(plusButton){
+if (plusButton) {
     plusButton_init();
 }
-
-function plusButton_init(){
+function plusButton_init() {
 
     // styled
     after_quantity_extra_button_style(plusButton);
 
     // click
-    plusButton.addEventListener('click', function(){
+    plusButton.addEventListener('click', function () {
         let qty = get_form_value('input[type=number].qty');
         var incriment = ++qty;
-    
+
         set_form_value('input[type=number].qty', incriment);
     });
-    
+
     // hover
-    plusButton.addEventListener('mouseover', function(){
-        let get_active_color =  getComputedStyle(document.querySelector('.described>.row>div>div>ul>li:first-child>a')).backgroundColor;
+    plusButton.addEventListener('mouseover', function () {
+        let get_active_color = getComputedStyle(document.querySelector('.described>.row>div>div>ul>li:first-child>a')).backgroundColor;
         plusButton.style.backgroundColor = get_active_color;
     });
-    
-    // hover out
-    plusButton.addEventListener('mouseout', function(){
-        after_quantity_extra_button_style(plusButton);
-    });    
-}
 
+    // hover out
+    plusButton.addEventListener('mouseout', function () {
+        after_quantity_extra_button_style(plusButton);
+    });
+}
 
 // Minus Button
 const minusButton = document.getElementById('minus');
 // if exist ID or Class
-if(minusButton){
+if (minusButton) {
     minusButton_init();
 }
-function minusButton_init(){
+function minusButton_init() {
 
     // styled
     after_quantity_extra_button_style(minusButton);
 
     // click
-    minusButton.addEventListener('click', function(){
+    minusButton.addEventListener('click', function () {
         let qty = get_form_value('input[type=number].qty');
-        if(qty > 1){
+        if (qty > 1) {
             var incriment = --qty;
-        }else{
+        } else {
             var incriment = qty;
         }
         set_form_value('input[type=number].qty', incriment);
     });
-    
+
     // hover
-    minusButton.addEventListener('mouseover', function(){
-        let get_active_color =  getComputedStyle(document.querySelector('.described>.row>div>div>ul>li:first-child>a')).backgroundColor;
+    minusButton.addEventListener('mouseover', function () {
+        let get_active_color = getComputedStyle(document.querySelector('.described>.row>div>div>ul>li:first-child>a')).backgroundColor;
         minusButton.style.backgroundColor = get_active_color;
     });
-    
+
     // hover out
-    minusButton.addEventListener('mouseout', function(){
+    minusButton.addEventListener('mouseout', function () {
         after_quantity_extra_button_style(minusButton);
     });
 }
 
 
 
-/**
- * - Single Product Page Translate
- * - Heading and Customize - Description | Additional Information | Reviews - Change
- */
+/* Translate - Customize
+------------------------- */
 
-// Description
-let description = document.querySelector('.woocommerce-Tabs-panel--description>h2');
-if(description && description.innerText == 'Description'){
-    description.innerText = 'Lýsing';
+// Translate Function by selector - (Selector ID/Class, Authontication for match word, Translated word)
+function translate_by_selector_with_auth(selector, auth, translate) {
+    let element = document.querySelector(selector);
+    if (element && element.innerText == auth) {
+        element.innerText = translate;
+    }
 }
 
-// Additonal Information
-let additonal_info_heading = document.querySelector('.woocommerce-Tabs-panel--additional_information>h2');
-if(additonal_info_heading && additonal_info_heading.innerText == 'Additional information'){
-    additonal_info_heading.innerText = 'Viðbótarupplýsingar';
+// Translate Placeholder Function by  - (Selector ID/Class, Authontication for match word, Translated word)
+function translate_placeholder_by_selector_with_auth(selector, auth, translate) {
+    let element = document.querySelector(selector);
+    if (element && element.placeholder == auth) {
+        element.placeholder = translate;
+    }
 }
 
-// Reviews
-let reviews_heading = document.querySelector('.woocommerce-Tabs-panel--reviews>#reviews>#comments>h2');
-if(reviews_heading && reviews_heading.innerText == 'Reviews'){
-    reviews_heading.innerText = 'Umsagnir';
+
+// Translate - Single Product Page
+function translate_single_product_page() {
+
+    // Description
+    translate_by_selector_with_auth('.woocommerce-Tabs-panel--description>h2', 'Description', 'Lýsing');
+
+    // Additonal Information
+    translate_by_selector_with_auth('.woocommerce-Tabs-panel--additional_information>h2', 'Additional information', 'Viðbótarupplýsingar');
+
+    // Reviews
+    translate_by_selector_with_auth('.woocommerce-Tabs-panel--reviews>#reviews>#comments>h2', 'Reviews', 'Umsagnir');
+
+    // There are no reviews yet - text
+    translate_by_selector_with_auth('.woocommerce-Tabs-panel>#reviews>#comments>.woocommerce-noreviews', 'There are no reviews yet.', 'Það eru engar umsagnir ennþá.');
+
+    // Reviews Star Init
+    let reviews_star_init = document.querySelector('#review_form>#respond>#reply-title');
+    let product_titile = document.querySelector('.product_title'); // get product titile
+    if (reviews_star_init && product_titile) {
+        reviews_star_init.innerText = 'Vertu fyrstur til að endurskoða' + ' "' + product_titile.innerText + '"';
+    }
+
+    // Your Rating
+    let your_rating = document.querySelector('#review_form>#respond>#commentform>.comment-form-rating>label');
+    if (your_rating) {
+        your_rating.innerHTML = 'Einkunn þín&nbsp;<span class="required">*</span>';
+    }
+
+    // Your Review
+    let your_review = document.querySelector('#review_form>#respond>#commentform>.comment-form-comment>label');
+    if (your_review) {
+        your_review.innerHTML = 'Umsögn þín&nbsp;<span class="required">*</span>';
+    }
+
+    // form submit comment
+    let form_submit = document.querySelector('#review_form>#respond>#commentform>.form-submit>input[type=submit]');
+    if (form_submit && form_submit.value == 'Submit') {
+        form_submit.value = 'Sendu';
+    }
+
+    // Related Products
+    translate_by_selector_with_auth('.related>h2', 'RELATED PRODUCTS', 'SKYLDAR VÖRUR');
+
+    // Reset Variation Button - Clear
+    translate_by_selector_with_auth('.reset_variations', 'Clear', 'Hreinsa');
+
+
+    /* Woo Commerce Messege
+    ----------------------- */
+    translate_by_selector_with_auth('.woocommerce-notices-wrapper>.woocommerce-message>a', 'View cart', 'Skoða körfu');
 }
 
-// There are no reviews yet - text
-let reviews_no_exist = document.querySelector('.woocommerce-Tabs-panel>#reviews>#comments>.woocommerce-noreviews');
-if(reviews_no_exist && reviews_no_exist.innerText == 'There are no reviews yet.'){
-    reviews_no_exist.innerText = 'Það eru engar umsagnir ennþá.';
+// Tranlate - Cart Page
+function translate_cart_page() {
+    // Product
+    translate_by_selector_with_auth('.product-name', 'Product', 'Vara');
+
+    // Price
+    translate_by_selector_with_auth('.product-price', 'Price', 'Verð');
+
+    // Quantity
+    translate_by_selector_with_auth('.product-quantity', 'Quantity', 'Magn');
+
+    // Sub-total
+    translate_by_selector_with_auth('.product-subtotal', 'Subtotal', 'Undirsumma');
+
+    // Coupoon
+    translate_by_selector_with_auth('.coupon>label', 'Coupon:', 'Afsláttarmiði:');
+
+    // Coupoon Place Holder
+    translate_placeholder_by_selector_with_auth('.coupon>#coupon_code', 'Coupon code', 'Afsláttarmiði:');/*  */
+
+    // Apply Coupon
+    translate_by_selector_with_auth('.coupon>button', 'Apply coupon', 'Notaðu afsláttarmiða');
+
+    // Update cart
+    translate_by_selector_with_auth('.update_cart', 'Update cart', 'Uppfæra körfu');
+
+    // Cart total
+    translate_by_selector_with_auth('.cart_totals>h2', 'CART TOTALS', 'VEGNAHLUTAR');
+
+    // Cart Sub-total
+    translate_by_selector_with_auth('.cart-subtotal>th', 'Subtotal', 'Undirsumma');
+
+    // Shipping
+    translate_by_selector_with_auth('.woocommerce-shipping-totals>th', 'Shipping', 'Sending');
+
+    // Shiping to
+    let get_shipping_dest = document.querySelector('.woocommerce-shipping-destination>strong');
+    let shipping_dest = document.querySelector('.woocommerce-shipping-destination');
+    if(get_shipping_dest && shipping_dest){
+        shipping_dest.innerHTML = 'Sending til&nbsp;<b>' + get_shipping_dest.innerText + '</b>';
+    }
+
+    // Shipping Address Change
+    translate_by_selector_with_auth('.woocommerce-shipping-calculator>.shipping-calculator-button', 'Change address', 'Skiptu um heimilisfang');
+
+    // Cart Total
+    translate_by_selector_with_auth('.order-total>th', 'Total', 'Samtals');
+
+    // Process to Checkout
+    translate_by_selector_with_auth('.wc-proceed-to-checkout>.checkout-button', 'Proceed to checkout', 'Haltu áfram að afgreiðslu');
+
 }
 
-// Reviews Star Init
-let reviews_star_init = document.querySelector('#review_form>#respond>#reply-title');
-let product_titile = document.querySelector('.product_title'); // get product titile
-if(reviews_star_init && product_titile){
-    reviews_star_init.innerText = 'Vertu fyrstur til að endurskoða' + ' "' + product_titile.innerText + '"';
-}
-
-// Your Rating
-let your_rating = document.querySelector('#review_form>#respond>#commentform>.comment-form-rating>label');
-if(your_rating){
-    your_rating.innerHTML = 'Einkunn þín&nbsp;<span class="required">*</span>';
-}
-
-// Your Review
-let your_review = document.querySelector('#review_form>#respond>#commentform>.comment-form-comment>label');
-if(your_review){
-    your_review.innerHTML = 'Umsögn þín&nbsp;<span class="required">*</span>';
-}
-
-// form submit comment
-let form_submit = document.querySelector('#review_form>#respond>#commentform>.form-submit>input[type=submit]');
-if(form_submit && form_submit.value == 'Submit'){
-    form_submit.value = 'Sendu';
-}
-
-// Related Products
-let related_products = document.querySelector('.related>h2');
-if(related_products && related_products.innerText == 'RELATED PRODUCTS'){
-    related_products.innerText = 'SKYLDAR VÖRUR';
-}
-
-// Reset Variation Button - Clear
-let reset_variations = document.querySelector('.reset_variations');
-if(reset_variations && reset_variations.innerText == 'Clear'){
-    reset_variations.innerText = 'Hreinsa';
-}
-
-/* Woo Commerce Messege
+/* Triger for Translate
 ----------------------- */
-let woocommerce_message = document.querySelector('.woocommerce-notices-wrapper>.woocommerce-message>a'); 
-if(woocommerce_message && woocommerce_message.innerText == 'View cart'){
-    woocommerce_message.innerText = 'Skoða körfu';
-}
+translate_single_product_page(); // single product page
+translate_cart_page(); // Cart Page
