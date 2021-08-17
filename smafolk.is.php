@@ -187,7 +187,6 @@ function bt_rename_coupon_label( $err, $err_code=null, $something=null ){
 	return $err;
 }
 
-
-
-
-?>
+/* woocommerce extra function change - Include PHP file
+-------------- */
+require_once 'woo_extra_functions.php';
