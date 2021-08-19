@@ -170,6 +170,16 @@ function translate_single_product_page() {
 
 // Tranlate - Cart Page
 function translate_cart_page() {
+
+    // Cart Remove Button (X)
+    translate_by_selector_with_auth('.product-remove>.remove', '×', 'Eyða úr körfu');
+    // Cart Remove Button Styled
+    document.querySelector('.product-remove>.remove').style.fontSize = '1.1rem';
+    document.querySelector('.product-remove>.remove').style.backgroundColor = 'red';
+    document.querySelector('.product-remove>.remove').style.color = 'white';
+    document.querySelector('.product-remove>.remove').style.borderRadius = '3px';
+    document.querySelector('.product-remove>.remove').style.padding = '10px 8px';
+
     // Product
     translate_by_selector_with_auth('.product-name', 'Product', 'Vara');
 
@@ -218,7 +228,7 @@ function translate_cart_page() {
     }
 
     // Cart total
-    translate_by_selector_with_auth('.cart_totals>h2', 'CART TOTALS', 'VEGNAHLUTAR');
+    translate_by_selector_with_auth('.cart_totals>h2', 'CART TOTALS', 'Karfa samtals');
 
     // Cart Sub-total
     translate_by_selector_with_auth('.cart-subtotal>th', 'Subtotal', 'Undirsumma');
