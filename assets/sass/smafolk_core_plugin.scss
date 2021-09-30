@@ -68,3 +68,12 @@ nav.navbar {
 form.cart .quantity input[type=number].qty{
     width: 30%;
 }
+
+// cart page remove button css
+.product-remove>.remove{
+    font-size: 1.1rem !important;
+    background-color: red;
+    color: #fff !important;
+    border-radius: 0.188rem;
+    padding: 0.625rem .5rem;
+}
